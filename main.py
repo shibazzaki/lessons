@@ -5,7 +5,7 @@ print(os.path.getmtime("file.txt"))
 
 
 
-
+print("HERE's com the mioooon")
 
 """file = open("file.txt", "w")
 file.write("Hello World")
