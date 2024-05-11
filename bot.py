@@ -34,7 +34,7 @@ async def cmd_reply(message: types.Message):
 async def cmd_dice(message: types.Message):
     await message.answer_dice(emoji="🎲")
 
-@dp.message(F.text)
+@dp.message(F.text, Command("echo"))
 async def echo_with_time(message: types.Message):
     time_now = datetime.now().strftime("%H:%M:%S")
     added_text = html.underline(f"Created in {time_now}")
@@ -63,6 +63,8 @@ async def cmd_hello(message: types.Message):
         **content.as_kwargs()
 
     )
+
+
 
 @dp.message(Command("info"))
 async def cmd_info(message: types.Message, started_at: str):
