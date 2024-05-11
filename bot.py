@@ -2,7 +2,7 @@ import asyncio
 import logging
 import colorama
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters import Command
+from aiogram.filters import Command, CommandObject
 from datetime import datetime
 from config_reader import config
 from aiogram import F
@@ -65,6 +65,33 @@ async def cmd_hello(message: types.Message):
     )
 
 
+@dp.message(Command("settimer"))
+async def cmd_settimer(
+        message: Message,
+        command: CommandObject
+):
+    #якщо не передані ніякі аргументи, то
+    # command.args буде None
+    if command.args is None:
+        await message.answer(
+            "Помилка, не передали ви аргумент тупі бліна"
+        )
+        return
+    #Пробуємо розділити аргументи на дві частини по першому зустрічному пробілу
+    try:
+        delay_time, text_to_send = command.args.split(" ", maxsplit=1)
+    #Якщо отримало менше ніж дві частини, вилітає ValueError(помилка значення)
+    except ValueError:
+        await message.answer(
+            "Помилка: не правильний формат команди. Приклад:\n"
+            "/settimer <time> <message>"
+        )
+        return
+    await message.answer(
+        "Таймер добавлений!\n"
+        f"Час: {delay_time}\n"
+        f"Текст: {text_to_send}"
+    )
 
 @dp.message(Command("info"))
 async def cmd_info(message: types.Message, started_at: str):
